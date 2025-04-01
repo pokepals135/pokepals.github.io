@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In - PokePals GO</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #4caf50;
+        --accent-color: #2196f3;
+        --text-color: #333;
+        --background-color: #f0f2f5;
+        --card-background: #fff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+      }
+
+      [data-theme="dark"] {
+        --text-color: #fff;
+        --background-color: #1a1a1a;
+        --card-background: #2d2d2d;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #76c893, #52b69a);
+        padding: 20px;
+      }
+
+      .signin-container {
+        background: var(--card-background);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px var(--shadow-color);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .logo {
+        width: 150px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      .signin-title {
+        font-size: 2rem;
+        color: var(--text-color);
+        margin-bottom: 30px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        outline: none;
+      }
+
+      .form-group input:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+      }
+
+      .signin-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(45deg, var(--primary-color), #81c784);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .signin-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .signin-btn.loading::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin: -10px 0 0 -10px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .error-message {
+        color: #f44336;
+        font-size: 0.9rem;
+        margin-top: 4px;
+        display: none;
+        text-align: left;
+        padding-left: 4px;
+      }
+
+      .form-group.error input {
+        border-color: #f44336;
+      }
+
+      .form-group.error .error-message {
+        display: block;
+      }
+
+      .success-message {
+        color: var(--primary-color);
+        font-size: 0.9rem;
+        margin-top: 8px;
+        display: none;
+      }
+
+      .signup-link {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .signup-link:hover {
+        text-decoration: underline;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: white;
+        transition: transform 0.3s ease;
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <button class="theme-toggle">🌓</button>
+    <div class="signin-container">
+      <img src="assets/PokepalsLogo.png" alt="PokePals Logo" class="logo" />
+      <h1 class="signin-title">Sign In</h1>
+      <form id="signin-form">
+        <div class="form-group">
+          <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            required
+          />
+          <div class="error-message" id="email-error"></div>
+        </div>
+        <div class="form-group">
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+            minlength="8"
+          />
+          <div class="error-message" id="password-error"></div>
+        </div>
+        <button type="submit" class="signin-btn">Sign In</button>
+        <div class="success-message" id="success-message">
+          Successfully signed in! Redirecting...
+        </div>
+      </form>
+      <p>
+        Don't have an account?
+        <a href="signup.html" class="signup-link">Sign Up</a>
+      </p>
+      <p style="margin-top: 10px">
+        <a
+          href="index.html"
+          class="back-link"
+          style="color: var(--accent-color); text-decoration: none"
+          >← Back to Home</a
+        >
+      </p>
+    </div>
+
+    <script>
+      // Theme toggle functionality
+      const themeToggle = document.querySelector(".theme-toggle");
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+
+      const getCurrentTheme = () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) return savedTheme;
+        return prefersDarkScheme.matches ? "dark" : "light";
+      };
+
+      const setTheme = (theme) => {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+      };
+
+      setTheme(getCurrentTheme());
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = getCurrentTheme();
+        const newTheme = currentTheme === "light" ? "dark" : "light";
+        setTheme(newTheme);
+      });
+
+      // Form validation and submission
+      document
+        .getElementById("signin-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          // Reset previous errors
+          clearErrors();
+
+          const emailInput = document.getElementById("email");
+          const passwordInput = document.getElementById("password");
+          const submitButton = document.querySelector(".signin-btn");
+          const successMessage = document.getElementById("success-message");
+
+          const email = emailInput.value.trim();
+          const password = passwordInput.value;
+
+          try {
+            // Email validation
+            const emailPattern =
+              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/;
+            if (!emailPattern.test(email)) {
+              showError(emailInput, "Please enter a valid email address");
+              return;
+            }
+
+            // Password validation
+            if (password.length < 8) {
+              showError(
+                passwordInput,
+                "Password must be at least 8 characters long"
+              );
+              return;
+            }
+
+            // Disable submit button and show loading state
+            submitButton.disabled = true;
+            submitButton.classList.add("loading");
+
+            // Check if user exists in localStorage
+            const registeredUsers = JSON.parse(
+              localStorage.getItem("registeredUsers") || "[]"
+            );
+            const user = registeredUsers.find(
+              (u) => u.email.toLowerCase() === email.toLowerCase()
+            );
+
+            if (!user) {
+              showError(emailInput, "No account found with this email address");
+              return;
+            }
+
+            if (user.password !== password) {
+              showError(passwordInput, "Incorrect password");
+              return;
+            }
+
+            // Store user data
+            localStorage.setItem(
+              "userData",
+              JSON.stringify({
+                email: user.email,
+                ign: user.ign,
+                playerId: user.playerId,
+              })
+            );
+
+            // Show success message
+            successMessage.style.display = "block";
+            successMessage.textContent =
+              "Successfully signed in! Redirecting...";
+
+            // Redirect to home page
+            window.location.href = "index.html";
+          } catch (error) {
+            console.error("Sign in error:", error);
+            showError(emailInput, "An error occurred. Please try again.");
+          }
+        });
+
+      function showError(input, message) {
+        const formGroup = input.parentElement;
+        const errorDisplay = formGroup.querySelector(".error-message");
+        const submitButton = document.querySelector(".signin-btn");
+
+        formGroup.classList.add("error");
+        errorDisplay.textContent = message;
+
+        submitButton.disabled = false;
+        submitButton.classList.remove("loading");
+      }
+
+      function clearErrors() {
+        const formGroups = document.querySelectorAll(".form-group");
+        const successMessage = document.getElementById("success-message");
+
+        formGroups.forEach((group) => {
+          group.classList.remove("error");
+          const errorDisplay = group.querySelector(".error-message");
+          if (errorDisplay) {
+            errorDisplay.textContent = "";
+          }
+        });
+
+        successMessage.style.display = "none";
+      }
+    </script>
+  </body>
+</html>
